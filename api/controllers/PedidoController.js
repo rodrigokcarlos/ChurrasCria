@@ -56,5 +56,63 @@ class PedidoController {
             return res.status(500).json(error.message)
         }
     }
+
+
+    // Carrinho/encomenda
+    // Read
+    static async pegaUmaEncomenda(req, res){
+        const { pedidoId, encomendaId } = req.params
+        try {
+            const pegaEncomenda = await database.Linha_encomenda.findOne({ 
+                where: {
+                    id: Number(encomendaId),
+                    pedido_id: Number(pedidoId)
+                }
+            })
+            return res.status(200).json(pegaEncomenda)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    // Create
+    static async criaEncomenda(req, res) {
+        const { pedidoId } = req.params
+        const novaEncomenda = { ...req.body, pedido_id: Number(pedidoId) }
+        try {
+            const novaEncomendaCriada = await database.Linha_encomenda.create(novaEncomenda)
+            return res.status(200).json(novaEncomendaCriada)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    // Update
+    static async atualizaEncomenda(req, res) {
+        const { pedidoId, encomendaId } = req.params
+        const novasInfos = req.body
+        try {
+            await database.Linha_encomenda.update(novasInfos, 
+                { where: { 
+                    id: Number(encomendaId),
+                    pedido_id: Number(pedidoId)
+                }})
+            const encomendaAtualizada = await database.Linha_encomenda.findOne({ where: { id: Number(encomendaId) }})
+            return res.status(200).json(encomendaAtualizada)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    // Delete
+    static async apagaEncomenda(req, res) {
+        const { pedidoId, encomendaId } = req.params
+        try {
+            await database.Linha_encomenda.destroy({ where: { 
+                id: Number(encomendaId)
+            }})
+            return res.status(200).json({mensagem: `id ${encomendaId} deletado`})
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
 }
 module.exports = PedidoController;

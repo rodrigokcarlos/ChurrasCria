@@ -2,23 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Cardapios', {
+    await queryInterface.createTable('Restaurantes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      descricao: {
+      nome: {
         type: Sequelize.STRING
       },
-      preco: {
-        type: Sequelize.FLOAT
-      },
-      restaurante_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'Restaurantes', key: 'id'}
+      endereco: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Cardapios');
+    await queryInterface.dropTable('Restaurantes');
   }
 };
