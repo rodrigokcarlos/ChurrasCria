@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Cardapio extends Model {
     static associate(models) {
       Cardapio.hasMany(models.Linha_encomenda, {foreignKey: 'cardapio_id'})
-      Cardapio.belongsTo(models.Restaurantes, {foreignKey: 'cardapio_id'})
+      Cardapio.belongsTo(models.Restaurantes, {foreignKey: 'restaurante_id'})
     }
   }
   Cardapio.init({
